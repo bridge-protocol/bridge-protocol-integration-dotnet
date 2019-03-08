@@ -15,6 +15,9 @@ namespace BridgeProtocol.Integrations.Models
         [DataMember(Name ="missingClaimTypes")]
         public List<long> MissingClaimTypes { get; set; }
 
+        [DataMember(Name = "unknownSignerClaimTypes")]
+        public List<long> UnknownSignerClaimTypes { get; set; }
+
         [DataMember(Name = "passportDetails")]
         public PassportDetails PassportDetails { get; set; }
     }

@@ -16,5 +16,8 @@ namespace BridgeProtocol.Integrations.Models
 
         [DataMember(Name = "expiresOn")]
         public long ExpiresOn { get; set; }
+
+        [DataMember(Name = "signedById")]
+        public string SignedById { get; set; }
     }
 }

@@ -13,12 +13,6 @@ namespace BridgeProtocol.Integrations.Models
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or Sets PublicKey
-        /// </summary>
-        [DataMember(Name = "publicKey")]
-        public string PublicKey { get; set; }
-
-        /// <summary>
         /// 
         /// </summary>
         [DataMember(Name = "isBlacklisted")]
