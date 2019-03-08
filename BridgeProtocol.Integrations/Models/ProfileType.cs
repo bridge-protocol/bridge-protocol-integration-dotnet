@@ -29,11 +29,5 @@ namespace BridgeProtocol.Integrations.Models
         /// </summary>
         [DataMember(Name = "claimTypes")]
         public List<int> ClaimTypes { get; set; }
-
-        /// <summary>
-        /// Gets or Sets ExpirationLength
-        /// </summary>
-        [DataMember(Name = "expirationDays")]
-        public int ExpirationDays { get; set; }
     }
 }
