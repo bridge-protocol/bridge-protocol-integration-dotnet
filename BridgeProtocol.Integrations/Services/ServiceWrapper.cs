@@ -149,11 +149,9 @@ namespace BridgeProtocol.Integrations.Services
                 claims
             };
 
-            var json = JsonConvert.SerializeObject(obj);
-
             try
             {
-                dynamic res = ServicesUtility.CallService(ServiceAction.POST, SecurityHeaders, ServiceBaseUrl + "/application/addclaims", json, true);
+                dynamic res = ServicesUtility.CallService(ServiceAction.POST, SecurityHeaders, ServiceBaseUrl + "/application/addclaims", JsonConvert.SerializeObject(obj), true);
                 success = res.status;
             }
             catch (Exception ex)
@@ -162,6 +160,53 @@ namespace BridgeProtocol.Integrations.Services
             }
 
             return success;
+        }
+
+        public bool CheckBlockchainTransactionComplete(string network, string transactionId)
+        {
+            bool complete = false;
+
+            var obj = new
+            {
+                network,
+                transactionId
+            };
+
+            try
+            {
+                dynamic res = ServicesUtility.CallService(ServiceAction.POST, SecurityHeaders, ServiceBaseUrl + "/blockchain/transactioncomplete", JsonConvert.SerializeObject(obj), true);
+                complete = res.complete;
+            }
+            catch (Exception ex)
+            {
+                //TODO: Log
+            }
+
+            return complete;
+        }
+
+        public dynamic GetBlockchainTransactionDetails(string network, string transactionId)
+        {
+            dynamic info = null;
+
+            var obj = new
+            {
+                network,
+                transactionId
+            };
+
+       
+            try
+            {
+                dynamic res = ServicesUtility.CallService(ServiceAction.POST, SecurityHeaders, ServiceBaseUrl + "/blockchain/transactiondetails", JsonConvert.SerializeObject(obj), true);
+                info = res.info;
+            }
+            catch(Exception ex)
+            {
+                //TODO: Log
+            }
+
+            return info;
         }
     }
 }
