@@ -1,23 +1,23 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace BridgeProtocol.Integrations.Models
 {
-    [DataContract]
     public class ClaimType
     {
-        [DataMember(Name = "id")]
+        [JsonProperty(PropertyName = "id")]
         public long Id { get; set; }
 
-        [DataMember(Name = "name")]
+        [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
 
-        [DataMember(Name = "description")]
+        [JsonProperty(PropertyName = "description")]
         public string Description { get; set; }
 
-        [DataMember(Name = "dataType")]
+        [JsonProperty(PropertyName = "dataType")]
         public string DataType { get; set; }
 
-        [DataMember(Name = "defaultExpirationDays")]
+        [JsonProperty(PropertyName = "defaultExpirationDays")]
         public int DefaultExpirationDays { get; set; }
     }
 }

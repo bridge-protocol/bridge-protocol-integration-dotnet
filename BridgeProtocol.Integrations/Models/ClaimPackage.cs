@@ -1,20 +1,20 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
 namespace BridgeProtocol.Integrations.Models
 {
-    [DataContract]
     public class ClaimPackage
     {
-        [DataMember(Name = "typeId")]
+        [JsonProperty(PropertyName = "typeId")]
         public long TypeId { get; set; }
 
-        [DataMember(Name = "signedBy")]
+        [JsonProperty(PropertyName = "signedBy")]
         public string SignedBy { get; set; }
 
-        [DataMember(Name = "claim")]
+        [JsonProperty(PropertyName = "claim")]
         public string Claim { get; set; }
     }
 }
