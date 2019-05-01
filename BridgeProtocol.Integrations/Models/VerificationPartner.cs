@@ -1,26 +1,26 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace BridgeProtocol.Integrations.Models
 {
-    [DataContract]
     public class VerificationPartner
     {
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name = "id")]
+        [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name = "name")]
+        [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets PublicKey
         /// </summary>
-        [DataMember(Name = "publicKey")]
+        [JsonProperty(PropertyName = "publicKey")]
         public string PublicKey { get; set; }
     }
 }

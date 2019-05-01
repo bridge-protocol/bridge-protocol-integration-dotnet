@@ -1,24 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace BridgeProtocol.Integrations.Models
 {
-    [DataContract]
     public class VerifyPassportLoginChallengeResponse
     {
-        [DataMember(Name = "tokenVerified")]
+        [JsonProperty(PropertyName = "tokenVerified")]
         public bool TokenVerified { get; set; }
 
-        [DataMember(Name = "claims")]
+        [JsonProperty(PropertyName = "claims")]
         public List<Claim> Claims { get; set; }
 
-        [DataMember(Name ="missingClaimTypes")]
+        [JsonProperty(PropertyName ="missingClaimTypes")]
         public List<long> MissingClaimTypes { get; set; }
 
-        [DataMember(Name = "unknownSignerClaimTypes")]
+        [JsonProperty(PropertyName = "unknownSignerClaimTypes")]
         public List<long> UnknownSignerClaimTypes { get; set; }
 
-        [DataMember(Name = "passportDetails")]
+        [JsonProperty(PropertyName = "passportDetails")]
         public PassportDetails PassportDetails { get; set; }
     }
 }

@@ -1,33 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace BridgeProtocol.Integrations.Models
 {
-    [DataContract]
     public class ProfileType
     {
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name = "id")]
+        [JsonProperty(PropertyName = "id")]
         public int Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name = "name")]
+        [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or Sets Description
         /// </summary>
-        [DataMember(Name = "description")]
+        [JsonProperty(PropertyName = "description")]
         public string Description { get; set; }
 
         /// <summary>
         /// Gets or Sets ClaimTypes
         /// </summary>
-        [DataMember(Name = "claimTypes")]
+        [JsonProperty(PropertyName = "claimTypes")]
         public List<int> ClaimTypes { get; set; }
     }
 }

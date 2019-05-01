@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
@@ -15,49 +16,49 @@ namespace BridgeProtocol.Integrations.Models
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name = "id")]
+        [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Passport Id
         /// </summary>
-        [DataMember(Name = "passportId")]
+        [JsonProperty(PropertyName = "passportId")]
         public string PassportId { get; set; }
 
         /// <summary>
         /// Gets or Sets Public Key
         /// </summary>
-        [DataMember(Name = "publicKey")]
+        [JsonProperty(PropertyName = "publicKey")]
         public string PublicKey { get; set; }
 
         /// <summary>
         /// Gets or Sets CreatedOn
         /// </summary>
-        [DataMember(Name = "createdOn")]
+        [JsonProperty(PropertyName = "createdOn")]
         public long CreatedOn { get; set; }
 
         /// <summary>
         /// Gets or Sets UpdatedOn
         /// </summary>
-        [DataMember(Name = "updatedOn")]
+        [JsonProperty(PropertyName = "updatedOn")]
         public long UpdatedOn { get; set; }
 
         /// <summary>
         /// Gets or Sets Status
         /// </summary>
-        [DataMember(Name = "status")]
+        [JsonProperty(PropertyName = "status")]
         public string Status { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        [DataMember(Name = "verificationPartner")]
+        [JsonProperty(PropertyName = "verificationPartner")]
         public string VerificationPartner { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        [DataMember(Name = "url")]
+        [JsonProperty(PropertyName = "url")]
         public string Url { get; set; }
     }
 }
