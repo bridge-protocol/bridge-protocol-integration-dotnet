@@ -117,49 +117,31 @@ namespace BridgeProtocol.Integrations.Services
             return JsonConvert.DeserializeObject<VerifyPassportLoginChallengeResponse>(serialized);
         }
 
-        public bool SetApplicationStatus(string applicationId, int status)
+        public string CreatePassportPaymentRequest(string network, decimal amount, string address, string identifier)
         {
-            bool success = false;
             var obj = new
             {
-                applicationId,
-                status
+                network,
+                amount,
+                address,
+                identifier
             };
 
-            try
-            {
-                dynamic res = ServicesUtility.CallService(ServiceAction.POST, SecurityHeaders, ServiceBaseUrl + "/application/setstatus", JsonConvert.SerializeObject(obj), true);
-                success = res.status;
-            }
-            catch (Exception ex)
-            {
-                //TODO: Log
-            }
-
-            return success;
+            dynamic res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/requestpayment", JsonConvert.SerializeObject(obj), true);
+            return res.request;
         }
 
-        public bool AddClaimsToApplication(string applicationId, string publicKey, List<Claim> claims)
+        public VerifyPassportPaymentResponse VerifyPassportPaymentResponse(string response)
         {
-            bool success = false;
             var obj = new
             {
-                applicationId,
-                publicKey,
-                claims
+                response,
             };
 
-            try
-            {
-                dynamic res = ServicesUtility.CallService(ServiceAction.POST, SecurityHeaders, ServiceBaseUrl + "/application/addclaims", JsonConvert.SerializeObject(obj), true);
-                success = res.status;
-            }
-            catch (Exception ex)
-            {
-                //TODO: Log
-            }
+            dynamic res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/verifypayment", JsonConvert.SerializeObject(obj), true);
+            var serialized = JsonConvert.SerializeObject(res.verify.paymentResponse);
 
-            return success;
+            return JsonConvert.DeserializeObject<VerifyPassportPaymentResponse>(serialized);
         }
 
         public bool CheckBlockchainTransactionComplete(string network, string transactionId)
