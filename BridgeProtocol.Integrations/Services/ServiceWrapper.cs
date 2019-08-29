@@ -139,7 +139,7 @@ namespace BridgeProtocol.Integrations.Services
             };
 
             dynamic res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/verifypayment", JsonConvert.SerializeObject(obj), true);
-            var serialized = JsonConvert.SerializeObject(res.verify.paymentResponse);
+            var serialized = JsonConvert.SerializeObject(res.verify);
 
             return JsonConvert.DeserializeObject<VerifyPassportPaymentResponse>(serialized);
         }
