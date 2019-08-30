@@ -144,6 +144,18 @@ namespace BridgeProtocol.Integrations.Services
             return JsonConvert.DeserializeObject<VerifyPassportPaymentResponse>(serialized);
         }
 
+        public string CreateClaimsImportRequest(List<ClaimPackage> claimPackages)
+        {
+            var obj = new
+            {
+                claimPackages
+            };
+
+            dynamic res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/requestclaimsimport", JsonConvert.SerializeObject(obj), true);
+            return res.request;
+        }
+
+
         public bool CheckBlockchainTransactionComplete(string network, string transactionId)
         {
             bool complete = false;
