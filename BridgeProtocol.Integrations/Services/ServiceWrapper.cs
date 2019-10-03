@@ -38,27 +38,11 @@ namespace BridgeProtocol.Integrations.Services
             }
         }
 
-        public ServiceWrapper(IConfiguration configuration)
+        public ServiceWrapper(string serviceUrl, string securityHeaderKey, string securityHeaderValue)
         {
             _servicesUtility = new ServicesUtility();
-
-            //Get the configuration
-            var serviceConfig = configuration.GetSection("Service");
-
-            //Get the env vars
-            var host = Environment.GetEnvironmentVariable("SERVICE_INTEGRATION_HOST");
-            var port = Environment.GetEnvironmentVariable("SERVICE_INTEGRATION_PORT");
-
-            if (!String.IsNullOrEmpty(host) && !String.IsNullOrEmpty(port))
-            {
-                _serviceBaseUrl = string.Concat(host, ":", port);
-            }
-            else
-            {
-                _serviceBaseUrl = serviceConfig["Location"];
-            }
-
-            _securityHeaders = new Dictionary<string, string>() { { serviceConfig["SecurityHeaderKey"], serviceConfig["SecurityHeaderValue"] } };
+            _serviceBaseUrl = serviceUrl;
+            _securityHeaders = new Dictionary<string, string>() { { securityHeaderKey, securityHeaderValue } };
         }
 
         public List<ClaimType> GetClaimTypes()
