@@ -18,6 +18,12 @@ namespace BridgeProtocol.Integrations.Models
         [JsonProperty(PropertyName = "unknownSignerClaimTypes")]
         public List<long> UnknownSignerClaimTypes { get; set; }
 
+        [JsonProperty(PropertyName = "passportId")]
+        public string PassportId { get; set; }
+
+        [JsonProperty(PropertyName = "publicKey")]
+        public string PublicKey { get; set; }
+
         [JsonProperty(PropertyName = "passportDetails")]
         public PassportDetails PassportDetails { get; set; }
     }
