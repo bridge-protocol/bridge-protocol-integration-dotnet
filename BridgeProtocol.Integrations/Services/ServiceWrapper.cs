@@ -38,27 +38,11 @@ namespace BridgeProtocol.Integrations.Services
             }
         }
 
-        public ServiceWrapper(IConfiguration configuration)
+        public ServiceWrapper(string serviceUrl, string securityHeaderKey, string securityHeaderValue)
         {
             _servicesUtility = new ServicesUtility();
-
-            //Get the configuration
-            var serviceConfig = configuration.GetSection("Service");
-
-            //Get the env vars
-            var host = Environment.GetEnvironmentVariable("SERVICE_INTEGRATION_HOST");
-            var port = Environment.GetEnvironmentVariable("SERVICE_INTEGRATION_PORT");
-
-            if (!String.IsNullOrEmpty(host) && !String.IsNullOrEmpty(port))
-            {
-                _serviceBaseUrl = string.Concat(host, ":", port);
-            }
-            else
-            {
-                _serviceBaseUrl = serviceConfig["Location"];
-            }
-
-            _securityHeaders = new Dictionary<string, string>() { { serviceConfig["SecurityHeaderKey"], serviceConfig["SecurityHeaderValue"] } };
+            _serviceBaseUrl = serviceUrl;
+            _securityHeaders = new Dictionary<string, string>() { { securityHeaderKey, securityHeaderValue } };
         }
 
         public List<ClaimType> GetClaimTypes()
@@ -117,49 +101,43 @@ namespace BridgeProtocol.Integrations.Services
             return JsonConvert.DeserializeObject<VerifyPassportLoginChallengeResponse>(serialized);
         }
 
-        public bool SetApplicationStatus(string applicationId, int status)
+        public string CreatePassportPaymentRequest(string network, decimal amount, string address, string identifier)
         {
-            bool success = false;
             var obj = new
             {
-                applicationId,
-                status
+                network,
+                amount,
+                address,
+                identifier
             };
 
-            try
-            {
-                dynamic res = ServicesUtility.CallService(ServiceAction.POST, SecurityHeaders, ServiceBaseUrl + "/application/setstatus", JsonConvert.SerializeObject(obj), true);
-                success = res.status;
-            }
-            catch (Exception ex)
-            {
-                //TODO: Log
-            }
-
-            return success;
+            dynamic res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/requestpayment", JsonConvert.SerializeObject(obj), true);
+            return res.request;
         }
 
-        public bool AddClaimsToApplication(string applicationId, string publicKey, List<Claim> claims)
+        public VerifyPassportPaymentResponse VerifyPassportPaymentResponse(string response)
         {
-            bool success = false;
             var obj = new
             {
-                applicationId,
+                response
+            };
+
+            dynamic res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/verifypayment", JsonConvert.SerializeObject(obj), true);
+            var serialized = JsonConvert.SerializeObject(res.verify);
+
+            return JsonConvert.DeserializeObject<VerifyPassportPaymentResponse>(serialized);
+        }
+
+        public string CreateClaimsImportRequest(string publicKey, List<Claim> claims)
+        {
+            var obj = new
+            {
                 publicKey,
                 claims
             };
 
-            try
-            {
-                dynamic res = ServicesUtility.CallService(ServiceAction.POST, SecurityHeaders, ServiceBaseUrl + "/application/addclaims", JsonConvert.SerializeObject(obj), true);
-                success = res.status;
-            }
-            catch (Exception ex)
-            {
-                //TODO: Log
-            }
-
-            return success;
+            dynamic res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/requestclaimsimport", JsonConvert.SerializeObject(obj), true);
+            return res.request;
         }
 
         public bool CheckBlockchainTransactionComplete(string network, string transactionId)
@@ -207,6 +185,88 @@ namespace BridgeProtocol.Integrations.Services
             }
 
             return info;
+        }
+
+        public string GetPassportIdFromKey(string publicKeyHex)
+        {
+            var obj = new { publicKeyHex };
+
+            var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/idfromkey", JsonConvert.SerializeObject(obj), true);
+            return res.passportId;
+        }
+
+        public string SignMessage(string messageText)
+        {
+            var obj = new { messageText };
+
+            var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/sign", JsonConvert.SerializeObject(obj), true);
+            return res.signedMessage;
+        }
+
+        public bool VerifyMessageSignature(string messageSignature, string publicKeyHex)
+        {
+            return !string.IsNullOrWhiteSpace(GetSignedMessage(messageSignature, publicKeyHex));
+        }
+
+        public string GetSignedMessage(string messageSignature, string publicKeyHex)
+        {
+            var obj = new
+            {
+                messageSignature,
+                publicKeyHex
+            };
+
+            var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/verify", JsonConvert.SerializeObject(obj), true);
+            return (string)res.verified;
+        }
+
+        public string EncryptMessage(string messageText, string decryptPublicKeyHex)
+        {
+            var obj = new
+            {
+                messageText,
+                decryptPublicKeyHex
+            };
+
+            var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/encrypt", JsonConvert.SerializeObject(obj), true);
+            return res.encryptedMessage;
+        }
+
+        public string DecryptMessage(string encryptedMessage)
+        {
+            var obj = new { encryptedMessage };
+
+            var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/decrypt", JsonConvert.SerializeObject(obj), true);
+            return res.decryptedMessage;
+        }
+
+        public BlockchainTransaction NeoApproveClaimPublish(BlockchainTransaction transaction, dynamic claim, string passportId)
+        {
+            var obj = new
+            {
+                transaction,
+                claim,
+                passportId
+            };
+
+            var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/neo/approveclaimpublish", JsonConvert.SerializeObject(obj), true);
+            var serialized = JsonConvert.SerializeObject(res.signedTransaction);
+            return JsonConvert.DeserializeObject<BlockchainTransaction>(serialized);
+        }
+
+        public NeoSpendTransactionResult NeoVerifySpendTransaction(string transactionId, decimal amount, string recipient, string identifier)
+        {
+            var obj = new
+            {
+                txid = transactionId,
+                amount,
+                recipient,
+                identifier
+            };
+
+            var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/neo/verifyspendtransaction", JsonConvert.SerializeObject(obj), true);
+            var serialized = JsonConvert.SerializeObject(res);
+            return JsonConvert.DeserializeObject<NeoSpendTransactionResult>(serialized);
         }
     }
 }
