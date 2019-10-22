@@ -8,10 +8,6 @@ namespace BridgeProtocol.Integrations.Models
     {
         public string network { get; set; }
 
-        public dynamic transactionParameters { get; set; }
-
         public string transaction { get; set; }
-
-        public string hash { get; set; }
     }
 }

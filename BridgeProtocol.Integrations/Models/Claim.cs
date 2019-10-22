@@ -16,5 +16,8 @@ namespace BridgeProtocol.Integrations.Models
 
         [JsonProperty(PropertyName = "expiresOn")]
         public long ExpiresOn { get; set; }
+
+        [JsonProperty(PropertyName = "signedByKey")]
+        public string SignedByKey { get; set; }
     }
 }

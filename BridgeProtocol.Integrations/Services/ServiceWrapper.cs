@@ -240,18 +240,17 @@ namespace BridgeProtocol.Integrations.Services
             return res.decryptedMessage;
         }
 
-        public BlockchainTransaction NeoApproveClaimPublish(BlockchainTransaction transaction, dynamic claim, string passportId)
+        public dynamic NeoGetClaimAddTransaction(dynamic claim, string passportId, string address)
         {
             var obj = new
             {
-                transaction,
                 claim,
-                passportId
+                passportId,
+                address
             };
 
-            var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/neo/approveclaimpublish", JsonConvert.SerializeObject(obj), true);
-            var serialized = JsonConvert.SerializeObject(res.signedTransaction);
-            return JsonConvert.DeserializeObject<BlockchainTransaction>(serialized);
+            var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/neo/claimaddtransaction", JsonConvert.SerializeObject(obj), true);
+            return res.transaction;
         }
 
         public NeoSpendTransactionResult NeoVerifySpendTransaction(string transactionId, decimal amount, string recipient, string identifier)
