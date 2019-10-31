@@ -11,7 +11,7 @@ namespace BridgeProtocol.Integrations.Models
         public string Network { get; set; }
 
         [JsonProperty(PropertyName = "amount")]
-        public int Amount { get; set; }
+        public long Amount { get; set; }
 
         [JsonProperty(PropertyName = "address")]
         public string Address { get; set; }
