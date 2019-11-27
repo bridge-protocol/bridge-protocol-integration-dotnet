@@ -26,5 +26,8 @@ namespace BridgeProtocol.Integrations.Models
 
         [JsonProperty(PropertyName = "passportDetails")]
         public PassportDetails PassportDetails { get; set; }
+
+        [JsonProperty(PropertyName = "blockchainAddresses")]
+        public List<BlockchainAddress> BlockchainAddresses { get; set; }
     }
 }
