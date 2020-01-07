@@ -13,10 +13,10 @@ namespace BridgeProtocol.Integrations.Models
         public List<Claim> Claims { get; set; }
 
         [JsonProperty(PropertyName ="missingClaimTypes")]
-        public List<long> MissingClaimTypes { get; set; }
+        public List<string> MissingClaimTypes { get; set; }
 
         [JsonProperty(PropertyName = "unknownSignerClaimTypes")]
-        public List<long> UnknownSignerClaimTypes { get; set; }
+        public List<string> UnknownSignerClaimTypes { get; set; }
 
         [JsonProperty(PropertyName = "passportId")]
         public string PassportId { get; set; }

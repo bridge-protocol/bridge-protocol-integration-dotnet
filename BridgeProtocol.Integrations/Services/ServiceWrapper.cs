@@ -73,7 +73,7 @@ namespace BridgeProtocol.Integrations.Services
             return res.publicKey;
         }
 
-        public string CreatePassportLoginChallengeRequest(string signingToken, int? profileTypeId, List<int> claimTypes)
+        public string CreatePassportLoginChallengeRequest(string signingToken, int? profileTypeId, List<string> claimTypes)
         {
             var obj = new
             {
@@ -86,7 +86,7 @@ namespace BridgeProtocol.Integrations.Services
             return res.request;
         }
 
-        public VerifyPassportLoginChallengeResponse VerifyPassportLoginChallengeResponse(string response, string token, List<int> claimTypes)
+        public VerifyPassportLoginChallengeResponse VerifyPassportLoginChallengeResponse(string response, string token, List<string> claimTypes)
         {
             var obj = new
             {
@@ -208,6 +208,13 @@ namespace BridgeProtocol.Integrations.Services
             return !string.IsNullOrWhiteSpace(GetSignedMessage(messageSignature, publicKeyHex));
         }
 
+        public bool VerifyHash(string str, string hash)
+        {
+            var obj = new { str, hash };
+            var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/verifyhash", JsonConvert.SerializeObject(obj), true);
+            return (bool)res.verified;
+        }
+
         public string GetSignedMessage(string messageSignature, string publicKeyHex)
         {
             var obj = new
@@ -240,13 +247,14 @@ namespace BridgeProtocol.Integrations.Services
             return res.decryptedMessage;
         }
 
-        public dynamic NeoGetClaimAddTransaction(dynamic claim, string passportId, string address)
+        public dynamic NeoGetClaimAddTransaction(dynamic claim, string passportId, string address, bool hashOnly)
         {
             var obj = new
             {
                 claim,
                 passportId,
-                address
+                address,
+                hashOnly
             };
 
             var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/neo/claimaddtransaction", JsonConvert.SerializeObject(obj), true);

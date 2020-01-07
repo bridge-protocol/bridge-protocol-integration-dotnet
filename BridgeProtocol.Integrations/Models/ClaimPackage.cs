@@ -9,7 +9,7 @@ namespace BridgeProtocol.Integrations.Models
     public class ClaimPackage
     {
         [JsonProperty(PropertyName = "typeId")]
-        public long TypeId { get; set; }
+        public string TypeId { get; set; }
 
         [JsonProperty(PropertyName = "signedBy")]
         public string SignedBy { get; set; }

@@ -6,7 +6,7 @@ namespace BridgeProtocol.Integrations.Models
     public class Claim
     {
         [JsonProperty(PropertyName = "claimTypeId")]
-        public long ClaimTypeId { get; set; }
+        public string ClaimTypeId { get; set; }
 
         [JsonProperty(PropertyName = "claimValue")]
         public string ClaimValue { get; set; }
