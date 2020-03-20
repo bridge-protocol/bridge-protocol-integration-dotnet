@@ -81,11 +81,13 @@ namespace BridgeProtocol.Integrations.Services
             return res.response;
         }
 
-        public string GetPassportDetails(string passportId)
+        public PassportDetails GetPassportDetails(string passportId)
         {
             var obj = new { passportId };
             var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/details", JsonConvert.SerializeObject(obj), true);
-            return res.response;
+            var serialized = JsonConvert.SerializeObject(res.response);
+
+            return JsonConvert.DeserializeObject<PassportDetails>(serialized);
         }
 
         public string SignMessage(string message)
