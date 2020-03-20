@@ -5,10 +5,13 @@ using System.Text;
 
 namespace BridgeProtocol.Integrations.Models
 {
-    public class VerifyPassportPaymentResponse
+    public class VerifyPaymentResponse
     {
         [JsonProperty(PropertyName = "network")]
         public string Network { get; set; }
+
+        [JsonProperty(PropertyName = "from")]
+        public string From { get; set; }
 
         [JsonProperty(PropertyName = "amount")]
         public long Amount { get; set; }
@@ -22,7 +25,7 @@ namespace BridgeProtocol.Integrations.Models
         [JsonProperty(PropertyName = "transactionId")]
         public string TransactionId { get; set; }
 
-        [JsonProperty(PropertyName = "passportDetails")]
-        public PassportDetails PassportDetails { get; set; }
+        [JsonProperty(PropertyName = "passportId")]
+        public string PassportId { get; set; }
     }
 }

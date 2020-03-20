@@ -19,5 +19,16 @@ namespace BridgeProtocol.Integrations.Models
 
         [JsonProperty(PropertyName = "signedByKey")]
         public string SignedByKey { get; set; }
+
+        [JsonProperty(PropertyName = "signedById")]
+        public string SignedById { get; set; }
+
+        [JsonProperty(PropertyName = "signatureValid")]
+        public bool SignatureValid { get; set; }
+
+        [JsonProperty(PropertyName = "signedByPartner")]
+        public bool SignedByPartner { get; set; }
+
+
     }
 }

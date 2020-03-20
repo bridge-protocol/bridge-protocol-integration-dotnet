@@ -5,12 +5,12 @@ using System.Text;
 
 namespace BridgeProtocol.Integrations.Models
 {
-    public class NeoSpendTransactionResult
+    public class VerifyPaymentTransactionResult
     {
-        [JsonProperty(PropertyName = "verified")]
-        public bool Verified { get; set; }
-
         [JsonProperty(PropertyName = "complete")]
         public bool Complete { get; set; }
+
+        [JsonProperty(PropertyName = "success")]
+        public bool Success { get; set; }
     }
 }
