@@ -236,7 +236,7 @@ namespace BridgeProtocol.Integrations.Services
             };
 
             var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/blockchain/approveclaimpublish", JsonConvert.SerializeObject(obj), true);
-            return res.result;
+            return res.response;
         }
     }
 }
