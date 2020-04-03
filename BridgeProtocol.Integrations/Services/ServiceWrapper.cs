@@ -212,6 +212,7 @@ namespace BridgeProtocol.Integrations.Services
         {
             var obj = new
             {
+                network,
                 txid,
                 from,
                 to,
@@ -220,7 +221,7 @@ namespace BridgeProtocol.Integrations.Services
             };
 
             var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/blockchain/verifypayment", JsonConvert.SerializeObject(obj), true);
-            var serialized = JsonConvert.SerializeObject(res);
+            var serialized = JsonConvert.SerializeObject(res.response);
             return JsonConvert.DeserializeObject<VerifyPaymentTransactionResult>(serialized);
         }
 
