@@ -180,7 +180,7 @@ namespace BridgeProtocol.Integrations.Services
             };
 
             dynamic res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/passport/requestpayment", JsonConvert.SerializeObject(obj), true);
-            return res.request;
+            return res.response;
         }
 
         public VerifyPaymentResponse VerifyPaymentResponse(string response)
