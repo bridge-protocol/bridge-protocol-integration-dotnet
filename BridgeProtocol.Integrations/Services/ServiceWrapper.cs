@@ -225,12 +225,13 @@ namespace BridgeProtocol.Integrations.Services
             return JsonConvert.DeserializeObject<VerifyPaymentTransactionResult>(serialized);
         }
 
-        public dynamic ApproveClaimPublish(string network, string passportId, string address, dynamic claim, bool hashOnly)
+        public dynamic ApproveClaimPublish(string network, string passportId, string transactionId, string address, dynamic claim, bool hashOnly)
         {
             var obj = new
             {
                 network,
                 passportId,
+                transactionId,
                 address,
                 claim,
                 hashOnly
