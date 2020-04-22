@@ -13,10 +13,9 @@ namespace BridgeProtocol.Integrations.Models
 
         public BridgeIntegrationServiceSettings(IConfiguration configuration)
         {
-            IConfigurationSection config = configuration.GetSection("Services").GetSection("BridgeIntegration");
-            Location = config["Location"];
-            SecurityHeaderKey = config["SecurityHeaderKey"];
-            SecurityHeaderValue = config["SecurityHeaderValue"];
+            Location = configuration.GetSection("NodeServiceUrl").Value;
+            SecurityHeaderKey = configuration.GetSection("NodeServiceSecurityHeaderKey").Value;
+            SecurityHeaderValue = configuration.GetSection("NodeServiceSecurityHeaderValue").Value;
         }
     }
 }
