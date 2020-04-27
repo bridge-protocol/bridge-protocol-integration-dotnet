@@ -41,7 +41,7 @@ namespace BridgeProtocol.Integrations.Services
         public ServiceWrapper(string serviceUrl, string securityHeaderKey, string securityHeaderValue)
         {
             _servicesUtility = new ServicesUtility();
-            _serviceBaseUrl = serviceUrl;
+            _serviceBaseUrl = serviceUrl.TrimEnd('/');
             _securityHeaders = new Dictionary<string, string>() { { securityHeaderKey, securityHeaderValue } };
         }
 
