@@ -60,5 +60,8 @@ namespace BridgeProtocol.Integrations.Models
         /// </summary>
         [JsonProperty(PropertyName = "url")]
         public string Url { get; set; }
+
+        [JsonProperty(PropertyName = "transactionNetwork")]
+        public string TransactionNetwork { get; set; }
     }
 }
