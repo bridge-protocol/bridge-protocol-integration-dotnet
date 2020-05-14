@@ -225,19 +225,25 @@ namespace BridgeProtocol.Integrations.Services
             return JsonConvert.DeserializeObject<VerifyPaymentTransactionResult>(serialized);
         }
 
-        public dynamic ApproveClaimPublish(string network, string passportId, string transactionId, string address, dynamic claim, bool hashOnly)
+        public bool VerifyClaimSignature(string passportId, dynamic claim)
         {
             var obj = new
             {
-                network,
                 passportId,
-                transactionId,
-                address,
-                claim,
-                hashOnly
+                claim
             };
+            var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/claim/verifysignature", JsonConvert.SerializeObject(obj), true);
+            return (bool)res.response;
+        }
 
-            var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/blockchain/approveclaimpublish", JsonConvert.SerializeObject(obj), true);
+        public dynamic CreateClaimPublishTransaction(string address, dynamic claim)
+        {
+            var obj = new
+            {
+                address,
+                claim
+            };
+            var res = _servicesUtility.CallService(ServiceAction.POST, _securityHeaders, _serviceBaseUrl + "/blockchain/createpublishtx", JsonConvert.SerializeObject(obj), true);
             return res.response;
         }
     }
