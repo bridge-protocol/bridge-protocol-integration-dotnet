@@ -12,5 +12,8 @@ namespace BridgeProtocol.Integrations.Models
 
         [JsonProperty(PropertyName = "success")]
         public bool Success { get; set; }
+
+        [JsonProperty(PropertyName = "message")]
+        public string Message { get; set; }
     }
 }
